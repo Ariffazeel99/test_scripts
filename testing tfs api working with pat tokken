@@ -27,7 +27,10 @@ headers = {
     'Content-Type': 'application/json'
 }
 
-response = requests.get("https://tfs.omicron.at/tfs/OMICRON/InnoLab/_apis/wit/workitems/316445?api-version=6.0", headers=headers)
+response = requests.get("https://tfs.company.at/tfs/company/InnoLab/_apis/wit/workitems/316445?api-version=6.0", headers=headers)
 
 print(response.status_code)
 print(response.json())  # Outputs the JSON response
+
+
+company = "name"
