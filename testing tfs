@@ -1,0 +1,50 @@
+import os
+import json
+import requests
+import re
+import pandas as pd
+import time
+from openai import AsyncAzureOpenAI
+import asyncio
+from dotenv import load_dotenv
+from openpyxl import load_workbook
+from openpyxl.styles import PatternFill
+import logging
+import xml.etree.ElementTree as ET
+import base64
+load_dotenv()
+
+pat_token = os.getenv("PAT_TOKEN_TFS")
+
+
+# Base64 encode the PAT token
+headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Basic ' + base64.b64encode((':' + pat_token).encode('utf-8')).decode('utf-8')
+}
+
+def fetch_bug_details(bug_id, tfs_url):
+    url = f"{tfs_url}/_apis/wit/workitems/{bug_id}?api-version=6.0"
+    response = requests.get(url, headers=headers)
+    
+    if response.status_code == 200:
+        bug_details = response.json()
+        print("Bug Details Retrieved Successfully!")
+        print("Title:", bug_details.get('fields').get('System.Title'))
+        print("State:", bug_details.get('fields').get('System.State'))
+        return True
+    else:
+        print(f"Failed to retrieve bug {bug_id}. Status Code: {response.status_code}")
+        print("Response:", response.content)
+        return False
+
+# Example usage
+tfs_url = 'https://tfs.omicron.at/tfs/company/InnoLab'
+bug_id = '316445'  # Use a known Bug ID from your TFS
+
+if fetch_bug_details(bug_id, tfs_url):
+    print("Test Passed: Successfully accessed the bug.")
+else:
+    print("Test Failed: Unable to access the bug.")
+
+company = "name" 
