@@ -1,0 +1,33 @@
+import os
+import json
+import requests
+import re
+import pandas as pd
+import time
+from openai import AsyncAzureOpenAI
+import asyncio
+from dotenv import load_dotenv
+from openpyxl import load_workbook
+from openpyxl.styles import PatternFill
+import logging
+import xml.etree.ElementTree as ET
+import base64
+
+load_dotenv()
+
+pat_token = os.getenv("PAT_TOKEN_TFS")
+
+
+# Ensure the token is not None
+if pat_token is None:
+    raise ValueError("PAT token is not set. Please set the 'pat_token' variable with your Personal Access Token.")
+
+headers = {
+    'Authorization': 'Basic ' + base64.b64encode((':' + pat_token).encode('utf-8')).decode('utf-8'),
+    'Content-Type': 'application/json'
+}
+
+response = requests.get("https://tfs.omicron.at/tfs/OMICRON/InnoLab/_apis/wit/workitems/316445?api-version=6.0", headers=headers)
+
+print(response.status_code)
+print(response.json())  # Outputs the JSON response
