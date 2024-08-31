@@ -39,7 +39,7 @@ def fetch_bug_details(bug_id, tfs_url):
         return False
 
 # Example usage
-tfs_url = 'https://tfs.omicron.at/tfs/company/InnoLab'
+tfs_url = 'https://tfs.company.at/tfs/company/InnoLab'
 bug_id = '316445'  # Use a known Bug ID from your TFS
 
 if fetch_bug_details(bug_id, tfs_url):
